@@ -1,21 +1,22 @@
-group=azure-files-tutorial\
-name=my-windows-vm\
-az group create -g $group -l northeurope\
-password=glenrobinand147\
+group=azure-files-tutorial
+name=my-windows-vm
+az group create -g $group -l northeurope
+password=Glenrobinand147$RANDOM
 
 az vm create \
 	-n $name \
 	-g $group \
-	-l northeurope \
+	-l eastus2 \
 	--image Win2019Datacenter \
-	--admin-username glen \
+	--admin-username glendemoadmin \
 	--admin-password $password \
-	nsg-rule rdp
+	--nsg-rule rdp
 
 az vm show \
 	-g $group \
 	-n $name \
 	-d \
- 	--query  "{name:name, publicIps, user:osProfile.adminUsername,password:'$password'}"
-
-cat cloud drive/$name.json
+ 	--query  "{name:name,publicIps:publicIps,user:osProfile.adminUsername,password:'$password'}" \
+    -o jsonc > clouddrive/$name.json
+    
+cat clouddrive/$name.json
